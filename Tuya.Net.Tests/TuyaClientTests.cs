@@ -129,6 +129,22 @@ namespace Tuya.Net.Tests
         }
 
         /// <summary>
+        /// Test obtaining a device.
+        /// </summary>
+        [Test]
+        public void Test_GetDeviceStatisticsAsync()
+        {
+            Assert.DoesNotThrowAsync(async () =>
+            {
+                var testDeviceId = config["TestDeviceId"];
+                AssertInconclusiveIfNullOrEmpty(testDeviceId);
+                var reportLogs = await client.DeviceManager.GetReportLogsAsync(testDeviceId, "add_ele", DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, 10);
+                Assert.IsNotNull(reportLogs);
+                
+            });
+        }
+
+        /// <summary>
         /// Helper method to assert inconclusive if config item is null or empty.
         /// </summary>
         /// <param name="configItem">Configuration item.</param>

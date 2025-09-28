@@ -87,6 +87,15 @@ namespace Tuya.Net.IoT
         }
 
         /// <inheritdoc />
+        public async Task<ReportLogs?> GetReportLogsAsync(string deviceId, string codes, DateTime start, DateTime end, int size, CancellationToken ct = default)
+        {
+            var startUnix = new DateTimeOffset(start).ToUnixTimeMilliseconds();
+            var endUnix = new DateTimeOffset(end).ToUnixTimeMilliseconds();
+            logger?.LogInformation("Getting device instructions for device: {deviceId}", deviceId);
+            return await client.RequestAsync<ReportLogs>(HttpMethod.Get, $"/v2.1/cloud/thing/{deviceId}/report-logs?codes={codes}&end_time={endUnix}&size={size}&start_time={startUnix}", cancellationToken: ct);
+        }
+
+        /// <inheritdoc />
         public async Task<bool> SendCommandAsync(DeviceInfo device, Command command, CancellationToken ct = default)
         {
             ThrowIfInvalid(device);
