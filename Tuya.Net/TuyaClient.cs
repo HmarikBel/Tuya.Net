@@ -65,6 +65,11 @@ namespace Tuya.Net
         private readonly int maxAuthRetryCount;
 
         /// <summary>
+        /// Credentials reloaded flag.
+        /// </summary>
+        private bool сredentialsReloaded;
+
+        /// <summary>
         /// Get the Tuya client builder.
         /// </summary>
         /// <returns></returns>
@@ -84,7 +89,23 @@ namespace Tuya.Net
                 tuyaAccessToken = await GetAccessTokenInfoAsync(ct: cancellationToken);
             }
 
-            return await LowLevel.SendRequestAsync<T>(httpMethod, path, tuyaAccessToken, payload, cancellationToken);
+            try
+            {
+                var requestResult = await LowLevel.SendRequestAsync<T>(httpMethod, path, tuyaAccessToken, payload, cancellationToken);
+                сredentialsReloaded = false;
+                return requestResult;
+            }
+            catch (TuyaResponseException ex) when (ex.Code == "1010" || ex.Message.Contains("token invalid"))
+            {
+                if (!сredentialsReloaded)
+                {
+                    сredentialsReloaded = true;
+                    tuyaAccessToken = await GetAccessTokenInfoAsync(ct: cancellationToken);
+                    return await RequestAsync<T>(httpMethod, path, payload, cancellationToken);
+                }
+                
+                throw;
+            }
         }
 
         /// <summary>
