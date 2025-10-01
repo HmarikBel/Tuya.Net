@@ -90,13 +90,14 @@ namespace Tuya.Net.IoT
         /// Get report logs for a device.
         /// </summary>
         /// <param name="deviceId">Tuya device ID.</param>
+        /// <param name="apiVersion">Api version. (Try v2.0, v2.1)</param>
         /// <param name="codes">Report codes like add_ele, cur_power. Check device debugging page.</param>
         /// <param name="start">Start date.</param>
         /// <param name="end">End date</param>
         /// <param name="size">Batch size.</param>
         /// <param name="ct">Cancellation token.</param>
         /// <returns>Report logs.</returns>
-        public Task<ReportLogs?> GetReportLogsAsync(string deviceId, string codes, DateTime start, DateTime end, int size, CancellationToken ct = default);
+        public Task<ReportLogs?> GetReportLogsAsync(string deviceId, string apiVersion, string codes, DateTime start, DateTime end, int size, CancellationToken ct = default);
 
         /// <summary>
         /// Send a single command to a device.
