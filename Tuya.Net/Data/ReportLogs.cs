@@ -7,12 +7,29 @@ namespace Tuya.Net.Data;
 /// </summary>
 public class ReportLogs
 {
-    [JsonProperty("date", NullValueHandling = NullValueHandling.Ignore)]
-    public DateTime? Date { get; set; }
+    [JsonProperty("device_id", NullValueHandling = NullValueHandling.Ignore)]
+    public string DeviceId { get; set; } = "";
+
+    [JsonProperty("deviceId", NullValueHandling = NullValueHandling.Ignore)]
+    public string DeviceIdV21
+    {
+        set => DeviceId = value;
+        get => DeviceId;
+    }
+
+    [JsonProperty("has_more")]
+    public bool HasMore { get; set; }
 
     [JsonProperty("hasMore")]
-    public bool HasMore { get; set; }
+    public bool HasMoreV21
+    {
+        set => HasMore = value;
+        get => HasMore;
+    }
 
     [JsonProperty("logs", NullValueHandling = NullValueHandling.Ignore)]
     public ReportLog[]? Logs { get; set; }
+
+    [JsonProperty("total", NullValueHandling = NullValueHandling.Ignore)]
+    public int Total { get; set; }
 }

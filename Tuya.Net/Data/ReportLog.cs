@@ -17,7 +17,17 @@ public class ReportLog
     /// Gets or sets the date.
     /// </summary>
     [JsonProperty("eventTime")]
-    public long EventUnixTimeMilliseconds { get; set; }
+    public long EventUnixTimeMillisecondsV21
+    {
+        set => EventUnixTimeMilliseconds = value;
+        get => EventUnixTimeMilliseconds;
+    }
+
+    /// <summary>
+    /// Gets or sets the date.
+    /// </summary>
+    [JsonProperty("event_time")]
+    public long EventUnixTimeMilliseconds { set; get; }
 
     /// <summary>
     /// Gets or sets the date.
