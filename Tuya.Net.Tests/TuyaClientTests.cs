@@ -138,12 +138,30 @@ namespace Tuya.Net.Tests
             {
                 var testDeviceId = config["TestDeviceId"];
                 AssertInconclusiveIfNullOrEmpty(testDeviceId);
-                var reportLogs = await client.DeviceManager.GetReportLogsAsync(testDeviceId, "v2.1", "add_ele", DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, 10);
+                //var reportLogs = await client.DeviceManager.GetReportLogsAsync(testDeviceId, "v2.1", "add_ele", DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, 10);
                 //var reportLogs = await client.DeviceManager.GetReportLogsAsync(testDeviceId, "v2.0","va_battery", DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, 10);
+                var reportLogs = await client.DeviceManager.GetReportLogsAsync(testDeviceId, "v2.1", "stat", DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, 10);
                 Assert.IsNotNull(reportLogs);
                 Assert.IsNotNull(reportLogs!.Logs);
                 Assert.IsNotEmpty(reportLogs.Logs!);
                 Assert.AreNotEqual(0, reportLogs.Logs![0].EventUnixTimeMilliseconds);
+            });
+        }
+
+        /// <summary>
+        /// Test obtaining device specification.
+        /// </summary>
+        [Test]
+        public void Test_GetDeviceSpecificationAsync_DeviceSpecificationObject()
+        {
+            Assert.DoesNotThrowAsync(async () =>
+            {
+                var testDeviceId = config["TestDeviceId"];
+                AssertInconclusiveIfNullOrEmpty(testDeviceId);
+                var specification = await client.DeviceManager.GetDeviceSpecificationAsync(testDeviceId);
+                Assert.IsNotNull(specification);
+                Assert.IsNotNull(specification!.Category);
+                Assert.IsTrue(specification.Functions is not null || specification.Status is not null);
             });
         }
 

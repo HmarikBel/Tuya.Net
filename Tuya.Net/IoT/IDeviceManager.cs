@@ -69,6 +69,22 @@ namespace Tuya.Net.IoT
         public Task<InstructionInfo?> GetDeviceInstructionsAsync(DeviceInfo device, CancellationToken ct = default);
 
         /// <summary>
+        /// Get the specification (functions and status) of a device.
+        /// </summary>
+        /// <param name="deviceId">Tuya device ID.</param>
+        /// <param name="ct">Cancellation token.</param>
+        /// <returns>A <see cref="DeviceSpecification"/> instance describing the device's functions and status.</returns>
+        public Task<DeviceSpecification?> GetDeviceSpecificationAsync(string deviceId, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the specification (functions and status) of a device.
+        /// </summary>
+        /// <param name="device">Tuya device.</param>
+        /// <param name="ct">Cancellation token.</param>
+        /// <returns>A <see cref="DeviceSpecification"/> instance describing the device's functions and status.</returns>
+        public Task<DeviceSpecification?> GetDeviceSpecificationAsync(DeviceInfo device, CancellationToken ct = default);
+
+        /// <summary>
         /// Send a single command to a device.
         /// </summary>
         /// <param name="device">Tuya device.</param>

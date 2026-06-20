@@ -96,6 +96,21 @@ namespace Tuya.Net.IoT
         }
 
         /// <inheritdoc />
+        public async Task<DeviceSpecification?> GetDeviceSpecificationAsync(string deviceId, CancellationToken ct = default)
+        {
+            logger?.LogInformation("Getting device specification for device: {deviceId}", deviceId);
+            return await client.RequestAsync<DeviceSpecification?>(HttpMethod.Get, $"/v1.0/devices/{deviceId}/specifications", cancellationToken: ct);
+        }
+
+        /// <inheritdoc />
+        public async Task<DeviceSpecification?> GetDeviceSpecificationAsync(DeviceInfo device, CancellationToken ct = default)
+        {
+            logger?.LogInformation("Getting device specification for device: {deviceId}", device.Id ?? "unknown");
+            ThrowIfInvalid(device);
+            return await GetDeviceSpecificationAsync(device.Id!, ct);
+        }
+
+        /// <inheritdoc />
         public async Task<bool> SendCommandAsync(DeviceInfo device, Command command, CancellationToken ct = default)
         {
             ThrowIfInvalid(device);
