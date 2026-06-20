@@ -67,7 +67,7 @@ namespace Tuya.Net
         /// <summary>
         /// Credentials reloaded flag.
         /// </summary>
-        private bool сredentialsReloaded;
+        private bool credentialsReloaded;
 
         /// <summary>
         /// Get the Tuya client builder.
@@ -92,14 +92,14 @@ namespace Tuya.Net
             try
             {
                 var requestResult = await LowLevel.SendRequestAsync<T>(httpMethod, path, tuyaAccessToken, payload, cancellationToken);
-                сredentialsReloaded = false;
+                credentialsReloaded = false;
                 return requestResult;
             }
             catch (TuyaResponseException ex) when (ex.Code == "1010" || ex.Message.Contains("token invalid"))
             {
-                if (!сredentialsReloaded)
+                if (!credentialsReloaded)
                 {
-                    сredentialsReloaded = true;
+                    credentialsReloaded = true;
                     tuyaAccessToken = await GetAccessTokenInfoAsync(ct: cancellationToken);
                     return await RequestAsync<T>(httpMethod, path, payload, cancellationToken);
                 }
